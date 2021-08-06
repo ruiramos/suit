@@ -16,17 +16,17 @@ pub fn main() {
 #[wasm_bindgen]
 pub struct CounterApp {
     counter: Counter,
-    update_fn: Function,
+    update_view_fn: Function,
 }
 
 #[wasm_bindgen]
 impl CounterApp {
-    pub fn new(update_fn: Function) -> CounterApp {
+    pub fn new(update_view_fn: Function) -> CounterApp {
         let app = CounterApp {
             counter: Counter::new(),
-            update_fn,
+            update_view_fn,
         };
-        CounterApp::call_update(&app);
+        CounterApp::update_view(&app);
         app
     }
 
@@ -42,13 +42,13 @@ impl CounterApp {
 
         if let Some(a) = action {
             self.counter.execute(a);
-            self.call_update();
+            self.update_view();
         }
     }
 
-    fn call_update(&self) {
+    fn update_view(&self) {
         let this = JsValue::null();
-        self.update_fn
+        self.update_view_fn
             .call1(&this, &JsValue::from(self.counter.get_value().to_string()))
             .unwrap();
     }
