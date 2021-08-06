@@ -6,7 +6,7 @@ const App = ({ CounterApp }) => {
   // holds the app "singleton"
   const [app, setApp] = useState();
 
-  // used by the app (wasm/rust) to update view state
+  // used on the callback to update state of the view
   const [counterState, setCounterState] = useState();
 
   useEffect(() => {
