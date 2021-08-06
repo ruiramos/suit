@@ -5,30 +5,7 @@
     <title>hello-wasm example</title>
   </head>
   <body>
-    <div id="app" style="text-align: center; font-size: 200%; font-family: sans-serif">
-      <div id="counter"></div>
-      <button id="inc">+</button>
-      <button id="dec">-</button>
-    </div>
-    <script type="module">
-      import init, {CounterApp} from "./suit-web/pkg/suit_web.js";
-      init()
-        .then(() => {
-          const app = CounterApp.new((state) => { 
-            document.querySelector('#counter').innerHTML = `Current value: ${state}`
-          });
-
-          document.querySelector('button#inc').addEventListener(
-            'click', 
-            () => app.dispatch('inc')
-          );
-
-          document.querySelector('button#dec').addEventListener(
-            'click', 
-            () => app.dispatch('dec')
-          );
-
-        });
-      </script>
+    <div id="app"></div>
+    <script src="dist/bundle.js"></script>
   </body>
 </html>

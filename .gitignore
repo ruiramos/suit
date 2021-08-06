@@ -1,3 +1,10 @@
+
+# Rust things
+
 debug/
 target/
 Cargo.lock
+
+# JS things
+node_modules
+dist/

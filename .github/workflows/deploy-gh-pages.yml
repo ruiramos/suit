@@ -10,12 +10,21 @@ jobs:
       - name: Install
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
-      - run: wasm-pack build --target web
+      - name: Compile WASM
+        run: wasm-pack build --target web
         working-directory: ./www/suit-web
+
+      - name: Bundle JS
+        run: |
+          npm install
+          npm run build
+        working-directory: ./www
 
       - run: |
           mkdir -p build/suit-web/pkg/
+          mkdir -p build/dist
           cp www/index.html build/
+          cp www/dist/* build/dist/
           cp www/suit-web/pkg/* build/suit-web/pkg
 
       - name: Deploy 🚀

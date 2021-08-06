@@ -15,7 +15,9 @@ pub fn main() {
 
 #[wasm_bindgen]
 pub struct CounterApp {
+    // the core logic
     counter: Counter,
+    // fn in JS that updates the view
     update_view_fn: Function,
 }
 
