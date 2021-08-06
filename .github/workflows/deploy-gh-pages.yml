@@ -1,7 +1,8 @@
 on: [push]
 
 jobs:
-  test:
+  deploy:
+    name: Build & Deploy to Github Pages
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -13,9 +14,9 @@ jobs:
         working-directory: ./www/suit-web
 
       - run: |
-          mkdir -p build/suit-web/pkg
+          mkdir -p build/suit-web/pkg/
           cp www/index.html build/
-          cp -r www/suit-web/pkg/ build/suit-web/pkg
+          cp www/suit-web/pkg/* build/suit-web/pkg
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.4
