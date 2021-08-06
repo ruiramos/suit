@@ -3,6 +3,42 @@ suit
 
 Exploring the concept of cross platform wasm powered apps.
 
-Current idea would be to have some common core logic (`./suit-logic`) which is then used by thin WASM platform providers that communicate with the native platform.
-For web, JS in `./www/index.html` interfaces with WASM from `./www/suit-web`.
+My current goal is to build a web, Android and iOS (native) apps that all depend on the same core business logic using WASM.
 
+ - [/suit-logic](./suit-logic) holds the business logic - currently a counter but hopefully soon something more interesting (todos? 😬)
+
+ - [/www](./www) holds the web version. It uses a "WASM platform provider" that's specific to the platform (web/JS - [suit-web](./www/suit-web/src)) that imports the core one, but the rendering is done on the native platform - the JS, currently using React.
+
+## Running
+
+### Web version
+
+1. Build the `suit-web` WASM module
+```shell
+cd www/suit-web
+wasm-pack build --target web
+```
+
+2. Build the JS app
+```shell
+cd .. # back to www/
+npm install
+npm run build # or 'npm run dev' for watch
+```
+
+3. Serve the static web app
+```
+npx serve
+```
+
+For development, you can also watch the Rust files with [cargo-watch](https://crates.io/crates/cargo-watch):
+```
+ cargo watch --ignore pkg/ -s 'wasm-pack build --target web'
+```
+
+## TODOs / Open questions
+ - [ ] Add persistence to the app with a platform specific persistence provider (ie localstorage for web)
+ - [ ] [web] Figure out why `--target bundle` doesn't work with esbuild and if that's something we should be using here
+ - [ ] [web] Think about alternatives for Rust -> JS communication. That callback makes things a bit hard to follow or maybe it's ok
+ - [ ] [iOS] Build PoC with Swift
+ - [ ] [Android] Build PoC with Kotlin

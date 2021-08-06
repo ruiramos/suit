@@ -3,10 +3,16 @@ import * as ReactDOM from "react-dom";
 import init, { CounterApp } from "../suit-web/pkg/suit_web";
 
 const App = ({ CounterApp }) => {
+  // holds the app "singleton"
   const [app, setApp] = useState();
+
+  // used by the app (wasm/rust) to update view state
   const [counterState, setCounterState] = useState();
 
   useEffect(() => {
+    // a bit of a circular dependency here by the way I've chose
+    // to let rust trigger a state update (a callback). There might
+    // be better ways of doing this.
     const app = CounterApp.new((state) => setCounterState(state));
     setApp(app);
   }, []);

@@ -20,7 +20,8 @@ jobs:
           npm run build
         working-directory: ./www
 
-      - run: |
+      - name: Copy things around
+        run: |
           mkdir -p build/suit-web/pkg/
           mkdir -p build/dist
           cp www/index.html build/
