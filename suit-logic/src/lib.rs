@@ -1,5 +1,10 @@
 mod counter;
-use crate::counter::{Action, Counter};
+use crate::counter::Counter;
+
+pub enum Action {
+    Increment,
+    Decrement,
+}
 
 pub trait AppClient {
     // TODO abstract state

@@ -1,8 +1,3 @@
-pub enum Action {
-    Increment,
-    Decrement,
-}
-
 pub struct Counter {
     value: isize,
 }
