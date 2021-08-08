@@ -37,7 +37,7 @@ For development, you can also watch the Rust files with [cargo-watch](https://cr
 ```
 
 ## TODOs / Open questions
- - [ ] Add persistence to the app with a platform specific persistence provider (ie localstorage for web)
+ - [x] Add persistence to the app with a platform specific persistence provider (ie localstorage for web)
  - [ ] [web] Figure out why `--target bundle` doesn't work with esbuild and if that's something we should be using here
  - [ ] [web] Think about alternatives for Rust -> JS communication. That callback makes things a bit hard to follow or maybe it's ok
  - [ ] [iOS] Build PoC with Swift
