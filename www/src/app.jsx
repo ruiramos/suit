@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import * as ReactDOM from "react-dom";
-import init, { CounterApp } from "../suit-web/pkg/suit_web";
+import init, { CounterApp, WebClient } from "../suit-web/pkg/suit_web";
 
 const App = ({ CounterApp }) => {
   // holds the app "singleton"
@@ -10,18 +10,21 @@ const App = ({ CounterApp }) => {
   const [counterState, setCounterState] = useState();
 
   useEffect(() => {
-    // a bit of a circular dependency here by the way I've chose
-    // to let rust trigger a state update (a callback). There might
-    // be better ways of doing this.
-    const app = CounterApp.new((state) => setCounterState(state));
+    const app = CounterApp.new(
+      WebClient.new({
+        update: (state) => setCounterState(state),
+        loadState: () => localStorage.getItem("counter_value"),
+        saveState: (state) => localStorage.setItem("counter_value", state),
+      })
+    );
     setApp(app);
   }, []);
 
   return (
     <Counter
       state={counterState}
-      handleDecrement={() => app.dispatch("dec")}
-      handleIncrement={() => app.dispatch("inc")}
+      handleDecrement={() => app.decrement()}
+      handleIncrement={() => app.increment()}
     />
   );
 };

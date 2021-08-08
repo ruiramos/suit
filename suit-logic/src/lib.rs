@@ -1,29 +1,31 @@
-pub enum Action {
-    Increment,
-    Decrement,
+mod counter;
+use crate::counter::{Action, Counter};
+
+pub trait AppClient {
+    // TODO abstract state
+    fn update_view(&self, state: isize);
+    fn store_state(&self, state: isize);
+    fn load_state(&self) -> Option<isize>;
 }
 
-pub struct Counter {
-    pub value: isize,
+pub struct App {
+    counter: Counter,
+    client: Box<dyn AppClient>,
 }
 
-impl Counter {
-    pub fn new() -> Counter {
-        Counter { value: 0 }
+impl App {
+    pub fn new(client: Box<dyn AppClient>) -> App {
+        let counter = Counter::new(client.load_state());
+        client.update_view(counter.get_value());
+        App { client, counter }
     }
-    pub fn increment(&mut self) {
-        self.value += 1;
-    }
-    pub fn decrement(&mut self) {
-        self.value -= 1;
-    }
-    pub fn get_value(&self) -> isize {
-        self.value
-    }
-    pub fn execute(&mut self, a: Action) {
-        match a {
-            Action::Increment => self.increment(),
-            Action::Decrement => self.decrement(),
+    pub fn dispatch(&mut self, action: Action) {
+        match action {
+            Action::Increment => self.counter.increment(),
+            Action::Decrement => self.counter.decrement(),
         }
+        let state = self.counter.get_value();
+        self.client.update_view(state);
+        self.client.store_state(state);
     }
 }
