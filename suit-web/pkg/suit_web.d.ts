@@ -5,17 +5,32 @@
 export function main(): void;
 /**
 */
+export function init_panic_hook(): void;
+/**
+*/
 export class CounterApp {
   free(): void;
 /**
-* @param {Function} update_view_fn
+* @param {WebClient} client
 * @returns {CounterApp}
 */
-  static new(update_view_fn: Function): CounterApp;
+  static new(client: WebClient): CounterApp;
 /**
-* @param {string} action
 */
-  dispatch(action: string): void;
+  increment(): void;
+/**
+*/
+  decrement(): void;
+}
+/**
+*/
+export class WebClient {
+  free(): void;
+/**
+* @param {any} options
+* @returns {WebClient}
+*/
+  static new(options: any): WebClient;
 }
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
@@ -24,10 +39,15 @@ export interface InitOutput {
   readonly memory: WebAssembly.Memory;
   readonly __wbg_counterapp_free: (a: number) => void;
   readonly counterapp_new: (a: number) => number;
-  readonly counterapp_dispatch: (a: number, b: number, c: number) => void;
+  readonly counterapp_increment: (a: number) => void;
+  readonly counterapp_decrement: (a: number) => void;
   readonly main: () => void;
+  readonly init_panic_hook: () => void;
+  readonly __wbg_webclient_free: (a: number) => void;
+  readonly webclient_new: (a: number) => number;
   readonly __wbindgen_malloc: (a: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
+  readonly __wbindgen_free: (a: number, b: number) => void;
   readonly __wbindgen_exn_store: (a: number) => void;
   readonly __wbindgen_start: () => void;
 }
