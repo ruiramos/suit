@@ -1,3 +1,4 @@
+use crate::log;
 use js_sys::Function;
 use suit_logic::AppClient;
 use wasm_bindgen::prelude::*;
@@ -42,15 +43,12 @@ impl AppClient for WebClient {
     }
     fn load_state(&self) -> Option<isize> {
         let this = JsValue::null();
-        let state: isize = self
-            .load_state
-            .call0(&this)
-            .unwrap()
-            .as_string()
-            .unwrap()
-            .parse::<isize>()
-            .unwrap();
+        let state = self.load_state.call0(&this).unwrap().as_string();
 
-        Some(state)
+        if let Some(state) = state {
+            Some(state.parse::<isize>().unwrap())
+        } else {
+            None
+        }
     }
 }

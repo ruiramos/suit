@@ -1,6 +1,17 @@
 use suit_logic::{Action, App};
 use wasm_bindgen::prelude::*;
 
+#[wasm_bindgen]
+extern "C" {
+    #[wasm_bindgen(js_namespace = console)]
+    fn log(s: &str);
+}
+
+#[macro_use]
+macro_rules! console_log {
+    ($($t:tt)*) => (log(&format_args!($($t)*).to_string()))
+}
+
 mod webclient;
 use crate::webclient::WebClient;
 
@@ -33,15 +44,4 @@ impl CounterApp {
     pub fn decrement(&mut self) {
         self.app.dispatch(Action::Decrement);
     }
-}
-
-#[wasm_bindgen]
-extern "C" {
-    #[wasm_bindgen(js_namespace = console)]
-    fn log(s: &str);
-}
-
-#[allow(unused_macros)]
-macro_rules! console_log {
-    ($($t:tt)*) => (log(&format_args!($($t)*).to_string()))
 }
